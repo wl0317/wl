@@ -1,137 +1,137 @@
 # logic.py
-import random
 import requests
-from config import BASE_URL, OMS_URL
+import random
 from database import Database
+from config import BASE_URL, OMS_URL
 
 
-# 生成广告计划名称
-def generate_name():
-    numbers_batch = list(range(100000, 999999))
-    random.shuffle(numbers_batch)
-    return ''.join(map(str, numbers_batch[:6]))
-
-
-# 转换时间段为数字
-def convert_time_range_to_numbers(time_range):
-    start_time, end_time = map(lambda x: tuple(map(int, x.split(':'))), time_range.split('-'))
-    start_number = start_time[0] * 6 + start_time[1] // 10
-    end_number = end_time[0] * 6 + end_time[1] // 10
-    return ",".join(map(str, range(start_number, end_number + 1)))
-
-
-# 获取数据库中的广告创意ID
-def select_idea(planId: int):
-    conn = Database.mysql_login()
-    sql = "SELECT id FROM adv_idea_info WHERE adv_plan_id = %s"
-    cur = conn.cursor()
-    cur.execute(sql, (planId,))
-    result = cur.fetchall()
-    Database.close_connection(conn)
-
-    if result:
-        return result[0]['id']
-    return None
-
-
-# 处理JSON响应
-def process_json_response(response):
-    try:
-        json_response = response.json()
-        print("JSON Response:", json_response)
-        return json_response.get('result')
-    except ValueError:
-        print("Response is not in JSON format.")
-        return None
-
-
-# 登录函数
 def login():
+    """登录并获取token和用户ID"""
     url = BASE_URL + '/user/cellPhoneLogin'
-    header = {'Content-Type': 'application/x-www-form-urlencoded', '_c': '19'}
-    data = {'code': '1111', 'mobile': 17316103505, 'source': '86'}
-
-    response = requests.post(url=url, data=data, headers=header)
-    token = response.headers.get('x-auth-token')
-    user_data = response.json().get('b', {})
-    uid = user_data.get('id', None)
-
+    header = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        '_c': '19'
+    }
+    data = {
+        'code': '1111',
+        'mobile': 17316103505,
+        'source': '86'
+    }
+    re = requests.post(url=url, data=data, headers=header)
+    re_data = re.json()
+    token = re.headers.get('x-auth-token')
+    uid = re_data.get('b', {}).get('id', None)
     if token:
-        print("Login successful, User ID:", uid)
-        return token, uid
+        print(f"登录成功, 用户ID: {uid}")
     else:
-        print("Login failed")
-        return None, None
+        print("登录失败")
+    return token, uid
 
 
-# 添加广告计划
-def add_advertisement_plan(token, uid, name_value, user_sub_location, user_input_date1, user_input_date, link):
+def create_plan(uid, token, user_sub_location, user_input_date1, user_input_date):
+    """创建广告计划并返回计划ID"""
     url = BASE_URL + '/adv/plan/add'
-    headers = {
+    header = {
         'Content-Type': 'application/json',
-        'masterId': str(uid),
+        'masterId': f"{uid}",
         '_c': '19',
         'appId': '12',
         'x-auth-token': token
     }
+
+    # 随机生成广告计划名称
+    name_value = ''.join(map(str, random.sample(range(100000, 999999), 6)))
+
     data = {
-        "resourceLocation": {"appId": "0", "location": "8", "subLocation": user_sub_location},
+        "resourceLocation": {
+            "appId": "0",
+            "location": "8",
+            "subLocation": user_sub_location,
+            "interactionForm": "1",
+            "promotionScope": {
+                "roomRecommendPos": {
+                    "roomType": "3",
+                    "contentIds": "",
+                    "userType": "1"
+                }
+            }
+        },
         "source": 1,
         "createUid": 3694377177090,
         "groupId": "1940626332392095746",
         "name": name_value,
-        "launchSchedule": [{"theDay": user_input_date1, "segments": user_input_date.split(',')}],
+        "launchSchedule": [
+            {
+                "theDay": user_input_date1,
+                "segments": user_input_date.split(',')
+            }
+        ],
         "masterId": 3694377177090
     }
 
-    response = requests.post(url, json=data, headers=headers)
-    return process_json_response(response)
+    response = requests.post(url=url, json=data, headers=header)
+    plan_id = response.json().get('b', {}).get('id')
+    print(f"创建广告计划成功，计划ID: {plan_id}")
+    return plan_id
 
 
-# 审核广告计划
-def audit_advertisement_plan(plan_id, token):
-    url = BASE_URL + '/adv/plan/audit'
-    data = {'id': plan_id}
-    headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'masterId': '3694377177090',
-        '_c': '19',
-        'appId': '12',
-        'x-auth-token': token
+def select_idea(planId: int):
+    """从数据库中选择广告创意"""
+    conn = Database.mysql_login()
+    if conn:
+        sql = "SELECT id FROM adv_idea_info WHERE adv_plan_id = %s"
+        cur = conn.cursor()
+        cur.execute(sql, (planId,))
+        result = cur.fetchall()
+        for row in result:
+            idea_id = row['id']
+            print(f"选取的创意ID: {idea_id}")
+            Database.close_connection(conn)
+            return idea_id
+    else:
+        print("数据库连接失败")
+        return None
+
+
+def oms_audit_callback(plan_id, status):
+    """OMS回调审核"""
+    url = f"{OMS_URL}/adv/plan/audit/callback"
+    data = {
+        'id': plan_id,
+        'status': status
     }
+    headers = {'Content-Type': 'application/x-www-form-urlencoded'}
     response = requests.post(url, headers=headers, data=data)
-    return process_json_response(response)
+    return response
 
 
-# 创建广告创意
-def create_advertisement_idea(plan_id, token, link):
+def create_idea(plan_id, link, token):
+    """创建广告创意"""
     url = BASE_URL + '/adv/idea/create'
-    headers = {
+    header = {
         'Content-Type': 'application/json',
         'masterId': '3694377177090',
         '_c': '19',
         'appId': '12',
         'x-auth-token': token,
-        'identify': 'uxid=55935e23f2ee4d51abc67afdad6cfafa',
+        'identify': 'uxid=55935e23f2ee4d51abc67afdad6cfafa'
     }
     data = {
         "planId": plan_id,
         "resource": {
             "baseList": [
-                {"type": 1, "width": 245, "height": 200, "url": "https://img.kilamanbo.com/adv/1701240521091843.png"}]
+                {
+                    "type": 1,
+                    "width": 245,
+                    "height": 200,
+                    "url": "https://img.kilamanbo.com/adv/1701240521091843.png"
+                }
+            ]
         },
         "copyInfo": {},
         "marketVal": link,
         "marketObj": 2,
         "review": "审核说明"
     }
-    response = requests.post(url, headers=headers, json=data)
-    return process_json_response(response)
-
-
-# 回调处理创意审核
-def callback_advertisement_idea(id, status):
-    url = OMS_URL + '/adv/idea/audit/callback'
-    data = {'id': id, 'status': status}
-    response = requests.post(url, data=data)
-    return process_json_response(response)
+    response = requests.post(url, headers=header, json=data)
+    return response
