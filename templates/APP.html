@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数据构造平台</title>
+  <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+
+  <div>
+    <header class="custom-header">
+      <span class="header-title">数据构造平台</span>
+      <select id="selectOption" class="dropdown" style="width: 400px;">
+        <option value="" disabled selected>请选择构造的数据</option>
+        <option value="option1">充值红豆脚本</option>
+        <option value="option2">开通会员脚本</option>
+        <option value="option3">选项三</option>
+      </select>
+    </header>
+
+    <div class="input-container">
+      <!-- Option 1 -->
+      <div id="option1" class="input-group" style="display: none;">
+        <input id="uid" type="text" placeholder="输入充值的UID" style="margin-bottom: 10px; width: 300px;">
+        <input id="gold" type="text" placeholder="输入充值的红豆" style="margin-bottom: 10px; width: 300px;">
+        <button id="confirmBtn1" class="btn-primary">确认</button>
+      </div>
+
+      <!-- Option 2 -->
+      <div id="option2" class="input-group" style="display: none;">
+        <input id="input3" type="text" placeholder="请输入输入框3" style="margin-bottom: 10px; width: 300px;">
+      </div>
+
+      <!-- Option 3 -->
+      <div id="option3" class="input-group" style="display: none;">
+        <input id="inputOther" type="text" placeholder="请输入其他信息" style="margin-bottom: 10px; width: 300px;">
+      </div>
+    </div>
+  </div>
+
+  <script src="../static/script.js"></script>
+</body>
+</html>
