@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3bf01d62-b924-437c-85a9-1c794ac85334" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="3bf01d62-b924-437c-85a9-1c794ac85334" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -185,10 +183,10 @@
       <screen x="0" y="25" width="1440" height="824" />
     </state>
     <state width="1324" height="184" key="GridCell.Tab.0.right/0.25.1440.824/-1920.25.1920.1055@0.25.1440.824" timestamp="1731056103921" />
-    <state x="527" y="142" key="RollbackChangesDialog" timestamp="1731051411635">
+    <state x="527" y="142" key="RollbackChangesDialog" timestamp="1731062768126">
       <screen x="0" y="25" width="1440" height="824" />
     </state>
-    <state x="527" y="142" key="RollbackChangesDialog/0.25.1440.824/-1920.25.1920.1055@0.25.1440.824" timestamp="1731051411635" />
+    <state x="527" y="142" key="RollbackChangesDialog/0.25.1440.824/-1920.25.1920.1055@0.25.1440.824" timestamp="1731062768126" />
     <state x="229" y="63" key="SettingsEditor" timestamp="1731061678570">
       <screen x="0" y="25" width="1440" height="824" />
     </state>
