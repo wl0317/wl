@@ -1,9 +1,32 @@
-/* 自定义样式 */
+/* Reset some default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  height: 100vh; /* 设置页面高度为视口高度 */
+}
+
 .custom-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  padding: 20px;
+  background-color: #4CAF50;
+  color: white;
+  width: 100%;
+  text-align: center;
+  position: fixed;
+  top: 0; /* 保证标题始终位于顶部 */
+  left: 0;
+  z-index: 10; /* 让 header 在前面 */
 }
 
 .header-title {
@@ -13,20 +36,37 @@
 
 .dropdown {
   font-size: 16px;
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  background-color: #fff;
+  margin-left: 20px;
 }
 
+/* Container for the input fields */
 .input-container {
-  margin-top: 20px;
+  margin-top: 80px; /* 留出顶部空间，避免被 header 遮挡 */
+  display: flex;
+  flex-direction: column; /* 垂直排列 */
+  align-items: center; /* 输入框居中 */
+  width: 100%; /* 宽度为 100%，保证居中 */
+  max-width: 400px; /* 控制最大宽度 */
 }
 
+/* Each input field container */
 .input-group {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  display: none; /* 默认隐藏，后续通过 JS 控制显示 */
 }
 
-input {
+.input-field {
   padding: 10px;
+  width: 100%;
+  max-width: 300px; /* 控制输入框最大宽度 */
   border-radius: 5px;
   border: 1px solid #ccc;
+  margin-bottom: 10px;
 }
 
 button {
@@ -36,9 +76,31 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-top: 10px;
+  width: 100%;
+  max-width: 300px; /* 控制按钮最大宽度 */
 }
 
 button:hover {
   background-color: #45a049;
+}
+
+/* Responsive Design: Ensure it works well on smaller screens */
+@media (max-width: 768px) {
+  body {
+    padding: 10px; /* Add padding to avoid text sticking to the edges */
+  }
+
+  .input-container {
+    margin-top: 60px; /* Adjust the margin for small screens */
+  }
+
+  .input-field, button {
+    width: 100%; /* Ensure full width on small screens */
+  }
+
+  .custom-header {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
 }
