@@ -15,7 +15,9 @@
       <option value="" disabled selected>请选择构造的数据</option>
       <option value="option1">充值红豆脚本</option>
       <option value="option2">开通会员脚本</option>
-      <option value="option3">选项三</option>
+      <option value="option3">失效会员脚本</option>
+      <option value="option4">修改账户经验值脚本</option>
+      <option value="option5">主播认证脚本</option>
     </select>
   </header>
 
@@ -35,8 +37,23 @@
 
     <!-- Option 3 -->
     <div id="option3" class="input-group">
-      <input id="inputOther" type="text" placeholder="请输入其他信息" class="input-field">
+      <input id="uid3" type="text" placeholder="输入要失效会员的UID账号" class="input-field">
+      <button id="confirmBtn3" class="btn-primary3">确认</button>
     </div>
+
+    <!-- Option 4 -->
+    <div id="option4" class="input-group">
+      <input id="uid4" type="text" placeholder="请输入添加经验值的UID" class="input-field">
+      <input id="exp" type="text" placeholder="输入修改的经验值" class="input-field">
+      <button id="confirmBtn4" class="btn-primary4">确认</button>
+    </div>
+
+    <!-- Option 5 -->
+    <div id="option5" class="input-group">
+      <input id="uid5" type="text" placeholder="输入认证的主播UID" class="input-field">
+      <button id="confirmBtn5" class="btn-primary5">确认</button>
+    </div>
+
   </main>
 
   <script src="../static/script.js"></script>
