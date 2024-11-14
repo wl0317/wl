@@ -115,7 +115,7 @@ def add_resource_gold():
         """
     gold = request.form.get('gold')
     uid = request.form.get('uid')
-    # 检查参数是否为空
+    # 校验参数是否为空
     if not gold or not uid:
         return jsonify({"code": "1027", "message": "uid或gold不能为空", "time": current_time}), 400
     # 检查uid是否存在并验证gold
