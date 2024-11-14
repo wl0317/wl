@@ -6,14 +6,16 @@
 # @Project : shuju
 
 from datetime import datetime
-from flask import Flask,jsonify,request
+from flask import Flask, jsonify, request, render_template
 from db.queries import AccountManager
 from services.user_services import Service
 
 
-
 app = Flask(__name__)
 
+@app.route('/shuju')
+def index():
+    return render_template('APP.html')
 
 # 获取当前时间并格式化为字符串
 current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -484,5 +486,11 @@ def create_room():
     return Service().create_room(phone)
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    return response
+
