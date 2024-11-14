@@ -17,7 +17,7 @@ app = Flask(__name__)
 def index():
     return render_template('APP.html')
 
-# 获取当前时间并格式化为字符串
+# 获取当前时间并转化化为字符串
 current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 @app.route('/add/gold', methods=['POST'])
