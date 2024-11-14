@@ -31,9 +31,6 @@ def add_gold():
         返回:
             - JSON格式的响应，包含状态码和消息
         """
-    # content_type = request.headers.get('Content-Type')
-    # print(content_type)
-    # 从请求中获取参数
     gold = request.form.get('gold')
     uid = request.form.get('uid')
     # 检查参数是否为空
