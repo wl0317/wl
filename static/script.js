@@ -32,6 +32,28 @@ document.addEventListener('DOMContentLoaded', () => {
   selectOption.addEventListener('change', function () {
     const selectedValue = selectOption.value;
 
+    // 根据选项选择对应的文案
+    switch (selectedValue) {
+      case 'option1':
+        infoText.innerHTML = '<p>请输入充值的UID和红豆数量，以完成充值操作。请输入充值的UID和红豆数量，以完成充值操作请输入充值的UID和红豆数量，以完成充值操作请输入充值的UID和红豆数量，以完成充值操作请输入充值的UID和红豆数量，以完成充值操作请输入充值的UID和红豆数量，以完成充值操作请输入充值的UID和红豆数量，以完成充值操作请输入充值的UID和红豆数量，以完成充值操作请输入充值的UID和红豆数量，以完成充值操作请输入充值的UID和红豆数量，以完成充值操作</p>';
+        break;
+      case 'option2':
+        infoText.innerHTML = '<p>请输入要开通会员的UID，点击确认开通会员。</p>';
+        break;
+      case 'option3':
+        infoText.innerHTML = '<p>请输入要失效的会员UID，点击确认使其失效。</p>';
+        break;
+      case 'option4':
+        infoText.innerHTML = '<p>请输入要修改经验值的UID和修改后的经验值。</p>';
+        break;
+      case 'option5':
+        infoText.innerHTML = '<p>请输入要认证的主播UID，点击确认进行认证。</p>';
+        break;
+      default:
+        infoText.innerHTML = '<p>请选择一个脚本来执行相应操作。</p>';
+        break;
+    }
+
     // 重置所有输入框的内容
     resetInputs();
 
